@@ -32,40 +32,52 @@ Numero 2:
 // funzione che viene eseguita quando si clicca il bottone
 function calcola() {
 
-    // leggo i valori inseriti nel form
-    let n1 = parseFloat(document.getElementById("num1").value);
-    let n2 = parseFloat(document.getElementById("num2").value);
-    let op = document.getElementById("operazione").value;
+let n1 = parseFloat(document.getElementById("num1").value);
+let n2 = parseFloat(document.getElementById("num2").value);
+let op = document.getElementById("operazione").value;
 
-    let risultato;
+let risultato;
 
-    // controllo se i valori inseriti sono numeri validi
-    if (isNaN(n1) || isNaN(n2)) {
-        document.getElementById("risultato").innerText = "Errore: inserisci numeri validi";
+// controllo se i numeri sono validi
+if (isNaN(n1) || isNaN(n2)) {
+    document.getElementById("risultato").innerText = "Errore: inserisci numeri validi";
+    return;
+}
+
+// controllo operazione
+if (op === "+") {
+    risultato = n1 + n2;
+}
+else if (op === "-") {
+    risultato = n1 - n2;
+}
+else if (op === "*") {
+    risultato = n1 * n2;
+}
+else if (op === "/") {
+
+    // controllo divisione per zero
+    if (n2 === 0) {
+        document.getElementById("risultato").innerText = "Errore: impossibile dividere per 0";
         return;
     }
 
-    // controllo quale operazione eseguire
-    if (op === "+") {
-        risultato = n1 + n2;
-    }
-    else if (op === "-") {
-        risultato = n1 - n2;
-    }
-    else if (op === "*") {
-        risultato = n1 * n2;
-    }
-    else if (op === "/") {
-        risultato = n1 / n2;
-    }
-    else {
-        // se operazione non valida
-        document.getElementById("risultato").innerText = "Operazione non valida";
-        return;
-    }
+    risultato = n1 / n2;
+}
+else {
+    document.getElementById("risultato").innerText = "Operazione non valida";
+    return;
+}
 
-    // stampo il risultato nella pagina
-    document.getElementById("risultato").innerText = "Risultato: " + risultato;
+// controllo risultato non valido (NaN o Infinity)
+if (!isFinite(risultato)) {
+    document.getElementById("risultato").innerText = "Errore nel calcolo";
+    return;
+}
+
+// stampa risultato
+document.getElementById("risultato").innerText = "Risultato: " + risultato;
+
 }
 
 </script>
