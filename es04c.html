@@ -3,81 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <title>Calcolatrice</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.calcolatrice {
+    background: #2c2c3e;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    width: 280px;
+}
+
+.display {
+    background: #1a1a2b;
+    color: #00ffcc;
+    font-size: 28px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: right;
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.bottoni {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* numeri */
+.numero {
+    background: #3a3a5f;
+    color: white;
+}
+
+.numero:hover {
+    background: #50507a;
+}
+
+/* operatori */
+.operatore {
+    background: #ff9500;
+    color: white;
+}
+
+.operatore:hover {
+    background: #ffaa33;
+}
+
+/* uguale */
+.uguale {
+    background: #00c896;
+    color: white;
+    grid-column: span 2;
+}
+
+.uguale:hover {
+    background: #00e6ac;
+}
+
+/* cancella */
+.clear {
+    background: #ff3b3b;
+    color: white;
+}
+
+.clear:hover {
+    background: #ff5c5c;
+}
+</style>
+
 </head>
 
 <body>
 
-<h2>Calcolatrice</h2>
+<div class="calcolatrice">
 
-<!-- form per inserire i dati -->
-<form id="calcForm">
+<div id="display" class="display">0</div>
 
-Numero 1:
-<input type="text" id="num1"><br><br>
+<div class="bottoni">
+    <button class="clear" onclick="clearDisplay()">C</button>
+    <button class="operatore" onclick="aggiungi('/')">/</button>
+    <button class="operatore" onclick="aggiungi('*')">*</button>
+    <button class="operatore" onclick="aggiungi('-')">-</button>
 
-Operazione (+ - * /):
-<input type="text" id="operazione"><br><br>
+    <button class="numero" onclick="aggiungi('7')">7</button>
+    <button class="numero" onclick="aggiungi('8')">8</button>
+    <button class="numero" onclick="aggiungi('9')">9</button>
+    <button class="operatore" onclick="aggiungi('+')">+</button>
 
-Numero 2:
-<input type="text" id="num2"><br><br>
+    <button class="numero" onclick="aggiungi('4')">4</button>
+    <button class="numero" onclick="aggiungi('5')">5</button>
+    <button class="numero" onclick="aggiungi('6')">6</button>
 
-<button type="button" onclick="calcola()">Calcola</button>
+    <button class="numero" onclick="aggiungi('1')">1</button>
+    <button class="numero" onclick="aggiungi('2')">2</button>
+    <button class="numero" onclick="aggiungi('3')">3</button>
 
-</form>
+    <button class="numero" onclick="aggiungi('0')">0</button>
+    <button class="numero" onclick="aggiungi('.')">.</button>
+    <button class="uguale" onclick="calcola()">=</button>
+</div>
 
-<p id="risultato"></p>
+</div>
 
 <script>
 
-// funzione che viene eseguita quando si clicca il bottone
-function calcola() {
+let display = document.getElementById("display");
 
-let n1 = parseFloat(document.getElementById("num1").value);
-let n2 = parseFloat(document.getElementById("num2").value);
-let op = document.getElementById("operazione").value;
-
-let risultato;
-
-// controllo se i numeri sono validi
-if (isNaN(n1) || isNaN(n2)) {
-    document.getElementById("risultato").innerText = "Errore: inserisci numeri validi";
-    return;
-}
-
-// controllo operazione
-if (op === "+") {
-    risultato = n1 + n2;
-}
-else if (op === "-") {
-    risultato = n1 - n2;
-}
-else if (op === "*") {
-    risultato = n1 * n2;
-}
-else if (op === "/") {
-
-    // controllo divisione per zero
-    if (n2 === 0) {
-        document.getElementById("risultato").innerText = "Errore: impossibile dividere per 0";
-        return;
+function aggiungi(valore) {
+    if (display.innerText === "0") {
+        display.innerText = valore;
+    } else {
+        display.innerText += valore;
     }
-
-    risultato = n1 / n2;
-}
-else {
-    document.getElementById("risultato").innerText = "Operazione non valida";
-    return;
 }
 
-// controllo risultato non valido (NaN o Infinity)
-if (!isFinite(risultato)) {
-    document.getElementById("risultato").innerText = "Errore nel calcolo";
-    return;
+function clearDisplay() {
+    display.innerText = "0";
 }
 
-// stampa risultato
-document.getElementById("risultato").innerText = "Risultato: " + risultato;
+function calcola() {
+    try {
+        let risultato = eval(display.innerText);
 
+        if (!isFinite(risultato)) {
+            display.innerText = "Errore";
+        } else {
+            display.innerText = risultato;
+        }
+    } catch {
+        display.innerText = "Errore";
+    }
 }
 
 </script>
