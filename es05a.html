@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Form Persona</title>
+    <meta charset="UTF-8">
+    <title>Form Persona</title>
 </head>
 <body>
 
-  <!-- Form per inserire i dati -->
-  <form id="formPersona">
+<h2>Inserisci i tuoi dati</h2>
+
+<form id="formPersona">
     <label>Nome:</label>
     <input type="text" id="nome" required><br><br>
 
@@ -18,34 +19,44 @@
     <input type="number" id="eta" required><br><br>
 
     <button type="submit">Invia</button>
-  </form>
+</form>
 
-  <script>
-    // Prendo il form tramite ID
-    const form = document.getElementById("formPersona");
+<p id="risultato"></p>
 
-    // Aggiungo un evento quando il form viene inviato
-    form.addEventListener("submit", function(event) {
+<script>
+document.getElementById("formPersona").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-      // Evito il refresh della pagina
-      event.preventDefault();
+    let nome = document.getElementById("nome").value.trim();
+    let cognome = document.getElementById("cognome").value.trim();
+    let eta = document.getElementById("eta").value;
 
-      // Recupero i valori inseriti dall'utente
-      const nome = document.getElementById("nome").value;
-      const cognome = document.getElementById("cognome").value;
-      const eta = document.getElementById("eta").value;
+    // Validazione
+    if (nome === "" || cognome === "" || eta === "") {
+        alert("Compila tutti i campi!");
+        return;
+    }
 
-      // Creo l'oggetto persona
-      const persona = {
+    if (eta <= 0 || eta>100) {
+        alert("Inserisci un'età valida!");
+        return;
+    }
+
+    // Creazione oggetto
+    let persona = {
         nome: nome,
         cognome: cognome,
-        eta: eta
-      };
+        eta: Number(eta)
+    };
 
-      // Stampo l'oggetto nella console
-      console.log(persona);
-    });
-  </script>
+    // Stampa in console
+    console.log(persona);
+
+    // Stampa a schermo
+    document.getElementById("risultato").textContent =
+        "Persona creata: " + nome + " " + cognome + ", età " + eta;
+});
+</script>
 
 </body>
 </html>
