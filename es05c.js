@@ -314,3 +314,87 @@ class BibliotecaPersistente {
     };
   }
 }
+console.log("\n=== TEST JSON ===");
+
+// Stampa oggetto e JSON
+console.log("Oggetto libro:", libro);
+console.log("Libro JSON:", libroJSON);
+
+// Stampa biblioteca JSON
+console.log("\nBiblioteca JSON:");
+console.log(bibliotecaJSON);
+
+// Parsing
+console.log("\nLibro recuperato:", libroRecuperato);
+
+// Array parsing
+console.log("\nLibri da array JSON:");
+libriArray.forEach(libro => {
+  console.log("-", libro.titolo);
+});
+
+
+// ===============================
+// TEST STORAGE
+// ===============================
+
+console.log("\n=== TEST STORAGE ===");
+
+// Recupero biblioteca salvata
+console.log("Biblioteca recuperata:", bibliotecaRecuperata);
+
+
+// ===============================
+// TEST FUNZIONI HELPER
+// ===============================
+
+console.log("\n=== TEST FUNZIONI ===");
+
+salvaOggetto("utente", { nome: "Luca", eta: 25 });
+
+const utenteRecuperato = recuperaOggetto("utente");
+console.log("Utente recuperato:", utenteRecuperato);
+
+aggiungiALista("preferiti", "Libro X");
+aggiungiALista("preferiti", "Libro Y");
+
+const preferiti = recuperaOggetto("preferiti");
+console.log("Lista preferiti:", preferiti);
+
+
+// ===============================
+// TEST CLASSE
+// ===============================
+
+console.log("\n=== TEST CLASSE ===");
+
+// Puliamo storage
+storage.clear();
+
+// Creiamo biblioteca
+const miaBiblioteca = new BibliotecaPersistente();
+
+// Aggiungiamo libri
+miaBiblioteca.aggiungiLibro({
+  titolo: "Il Signore degli Anelli",
+  autore: "Tolkien",
+  genere: "Fantasy",
+  pagine: 1178
+});
+
+miaBiblioteca.aggiungiLibro({
+  titolo: "1984",
+  autore: "Orwell",
+  genere: "Distopia",
+  pagine: 328
+});
+
+// Stampiamo dati
+console.log("Libri salvati:", miaBiblioteca.libri);
+
+// Statistiche
+console.log("Statistiche:", miaBiblioteca.getStatistiche());
+
+// Esportazione JSON
+console.log("\nJSON esportato:");
+console.log(miaBiblioteca.esportaJSON());
