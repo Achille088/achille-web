@@ -138,3 +138,6 @@ function statisticheBiblioteca(libri) {
     autori
   };
 }
+// Stampa tutti i libri della biblioteca
+console.log("\n=== BIBLIOTECA ===");
+stampaBiblioteca(biblioteca);
