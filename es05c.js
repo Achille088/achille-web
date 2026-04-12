@@ -1,8 +1,17 @@
 // ===============================
-// SOLUZIONE 1.1 - Creazione oggetto e JSON
+// ESERCITAZIONE 4 - JSON E SERIALIZZAZIONE
 // ===============================
 
-// Creiamo un oggetto libro con le proprietà richieste
+console.log("=== ESERCITAZIONE 4: JSON E SERIALIZZAZIONE ===\n");
+
+
+// ===============================
+// PARTE 1 - SERIALIZZAZIONE
+// ===============================
+
+console.log("--- PARTE 1 ---");
+
+// Oggetto libro
 const libro = {
   titolo: "Il Nome della Rosa",
   autore: "Umberto Eco",
@@ -12,389 +21,243 @@ const libro = {
   disponibile: true
 };
 
-// Convertiamo l'oggetto in stringa JSON
-// JSON.stringify trasforma un oggetto in testo
+// JSON.stringify
 const libroJSON = JSON.stringify(libro);
+console.log("Libro JSON:", libroJSON);
 
 
-// ===============================
-// SOLUZIONE 1.2 - Array e JSON formattato
-// ===============================
-
-// Creiamo un array con più libri
+// Array di libri
 const biblioteca = [
   { titolo: "Libro 1", autore: "Autore 1", anno: 2020 },
   { titolo: "Libro 2", autore: "Autore 2", anno: 2021 },
   { titolo: "Libro 3", autore: "Autore 3", anno: 2022 }
 ];
 
-// Convertiamo l'array in JSON leggibile (indentazione 2 spazi)
+// JSON formattato
 const bibliotecaJSON = JSON.stringify(biblioteca, null, 2);
+console.log("\nBiblioteca JSON:\n", bibliotecaJSON);
 
 
-// ===============================
-// SOLUZIONE 1.3 - Replacer con array
-// ===============================
-
-// Convertiamo solo alcune proprietà dell'oggetto
-// Vengono incluse solo titolo, autore e anno
-const libroFiltrato = JSON.stringify(libroCompleto, ["titolo", "autore", "anno"]);
-
-
-// ===============================
-// SOLUZIONE 2.1 - JSON.parse()
-// ===============================
-
-// Convertiamo la stringa JSON in oggetto JavaScript
-const libroRecuperato = JSON.parse(jsonString);
-
-
-// ===============================
-// SOLUZIONE 2.2 - Parsing array JSON
-// ===============================
-
-// Convertiamo la stringa JSON in array
-const libriArray = JSON.parse(arrayJSON);
-
-// Stampiamo il titolo di ogni libro
-libriArray.forEach(libro => {
-  console.log("Titolo:", libro.titolo);
-});
-
-
-// ===============================
-// SOLUZIONE 2.3 - Gestione errori
-// ===============================
-
-try {
-  // Tentiamo di convertire JSON non valido
-  const risultato = JSON.parse(jsonNonValido);
-} catch (errore) {
-  // Se c'è errore lo gestiamo senza bloccare il programma
-  console.error("Errore di parsing JSON:", errore.message);
-}
-
-
-// ===============================
-// SOLUZIONE 3.1 - Replacer funzione
-// ===============================
-
-// Creiamo oggetto utente
-const utente = {
-  nome: "Mario Rossi",
-  email: "mario@example.com",
-  password: "segreta123",
-  ruolo: "admin"
+// Oggetto completo per filtraggio
+const libroCompleto = {
+  titolo: "Cent'anni di solitudine",
+  autore: "Gabriel García Márquez",
+  anno: 1967,
+  genere: "Realismo magico",
+  pagine: 432,
+  isbn: "978-0060883287",
+  disponibile: true,
+  dataAcquisto: "2024-01-15"
 };
 
-// Funzione replacer che esclude la password
-function replacerSicuro(key, value) {
-  if (key === "password") return undefined; // escludiamo campo sensibile
-  return value;
-}
-
-// Convertiamo in JSON senza password
-const utenteJSON = JSON.stringify(utente, replacerSicuro);
+// Replacer (solo alcune proprietà)
+const libroFiltrato = JSON.stringify(libroCompleto, ["titolo", "autore", "anno"]);
+console.log("\nLibro filtrato:", libroFiltrato);
 
 
 // ===============================
-// SOLUZIONE 3.2 - Date in JSON
+// PARTE 2 - DESERIALIZZAZIONE
 // ===============================
 
-// Convertiamo oggetto con Date in JSON
-// Le Date vengono automaticamente trasformate in stringhe ISO
-const prestitoJSON = JSON.stringify(prestito, null, 2);
+console.log("\n--- PARTE 2 ---");
 
+// JSON string
+const jsonString = '{"titolo":"Don Chisciotte","autore":"Miguel de Cervantes","anno":1605,"pagine":863,"disponibile":true}';
 
-// ===============================
-// SOLUZIONE 3.3 - Reviver Date
-// ===============================
-
-// Funzione reviver per riconvertire stringhe in Date
-function reviverDate(key, value) {
-  // Controlliamo se il valore è una stringa nel formato data ISO
-  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value)) {
-    return new Date(value); // convertiamo in oggetto Date
-  }
-  return value;
-}
-
-// Parsing con conversione automatica delle date
-const prestitoRecuperato = JSON.parse(prestitoJSON, reviverDate);
-
-
-// ===============================
-// SOLUZIONE 4.1 - Clonazione profonda
-// ===============================
-
-// Creiamo una copia profonda dell'oggetto
-// stringify + parse = clone completo
-const bibliotecaCopia = JSON.parse(JSON.stringify(bibliotecaOriginale));
-
-// Modifichiamo la copia (non l'originale)
-bibliotecaCopia.indirizzo.città = "Roma";
-bibliotecaCopia.libri[0].disponibile = false;
-
-
-// ===============================
-// SOLUZIONE 4.2 - Confronto oggetti
-// ===============================
-
-// Confrontiamo due oggetti trasformandoli in stringhe JSON
-function oggettiUguali(obj1, obj2) {
-  return JSON.stringify(obj1) === JSON.stringify(obj2);
-}
-
-
-// ===============================
-// SOLUZIONE 5.1 - Simulazione localStorage
-// ===============================
-
-const storage = (function() {
-
-  // Oggetto privato che contiene i dati
-  const dati = {};
-
-  return {
-
-    // Salva un valore come stringa
-    setItem: function(chiave, valore) {
-      dati[chiave] = String(valore);
-    },
-
-    // Recupera un valore (o null se non esiste)
-    getItem: function(chiave) {
-      return dati.hasOwnProperty(chiave) ? dati[chiave] : null;
-    },
-
-    // Rimuove un elemento
-    removeItem: function(chiave) {
-      delete dati[chiave];
-    },
-
-    // Cancella tutto lo storage
-    clear: function() {
-      for (let key in dati) {
-        delete dati[key];
-      }
-    },
-
-    // Restituisce numero di elementi salvati
-    get length() {
-      return Object.keys(dati).length;
-    }
-  };
-
-})();
-
-
-// ===============================
-// SOLUZIONE 5.2 - Salvataggio e recupero JSON
-// ===============================
-
-// Creiamo array di libri
-const mieiBibliLibri = [
-  { titolo: "Libro A", autore: "Autore A" },
-  { titolo: "Libro B", autore: "Autore B" }
-];
-
-// Salviamo nello storage (convertendo in JSON)
-storage.setItem("biblioteca", JSON.stringify(mieiBibliLibri));
-
-// Recuperiamo e riconvertiamo in oggetto
-const bibliotecaRecuperata = JSON.parse(storage.getItem("biblioteca"));
-
-
-// ===============================
-// SOLUZIONE 5.3 - Funzioni helper
-// ===============================
-
-// Salva un oggetto nello storage
-function salvaOggetto(chiave, oggetto) {
-  storage.setItem(chiave, JSON.stringify(oggetto));
-}
-
-// Recupera un oggetto dallo storage
-function recuperaOggetto(chiave) {
-  try {
-    const valore = storage.getItem(chiave);
-    return valore ? JSON.parse(valore) : null;
-  } catch (errore) {
-    console.error("Errore nel recupero:", errore.message);
-    return null;
-  }
-}
-
-// Aggiunge un elemento a una lista salvata
-function aggiungiALista(chiave, elemento) {
-  const lista = recuperaOggetto(chiave) || []; // se non esiste, array vuoto
-  lista.push(elemento); // aggiungiamo elemento
-  salvaOggetto(chiave, lista); // salviamo aggiornato
-}
-
-
-// ===============================
-// SOLUZIONE 6.1 - Classe completa
-// ===============================
-
-class BibliotecaPersistente {
-
-  constructor(chiaveStorage = "biblioteca") {
-    this.chiaveStorage = chiaveStorage;
-    this.libri = [];
-    this.carica(); // carica dati se esistono
-  }
-
-  aggiungiLibro(libro) {
-    this.libri.push(libro); // aggiunge libro
-    this.salva(); // salva automaticamente
-  }
-
-  rimuoviLibro(titolo) {
-    // rimuove libro ignorando maiuscole/minuscole
-    this.libri = this.libri.filter(l => 
-      l.titolo.toLowerCase() !== titolo.toLowerCase()
-    );
-    this.salva();
-  }
-
-  cercaLibro(titolo) {
-    // cerca libro ignorando maiuscole/minuscole
-    return this.libri.find(l => 
-      l.titolo.toLowerCase() === titolo.toLowerCase()
-    );
-  }
-
-  salva() {
-    // salva in formato JSON nello storage
-    storage.setItem(this.chiaveStorage, JSON.stringify(this.libri));
-  }
-
-  carica() {
-    try {
-      const dati = storage.getItem(this.chiaveStorage);
-      if (dati) {
-        this.libri = JSON.parse(dati);
-      }
-    } catch (errore) {
-      console.error("Errore caricamento:", errore.message);
-      this.libri = [];
-    }
-  }
-
-  esportaJSON() {
-    // restituisce JSON formattato
-    return JSON.stringify(this.libri, null, 2);
-  }
-
-  importaJSON(jsonString) {
-    try {
-      this.libri = JSON.parse(jsonString);
-      this.salva();
-    } catch (errore) {
-      console.error("Errore import:", errore.message);
-    }
-  }
-
-  getStatistiche() {
-    // calcolo autori unici
-    const autori = new Set(this.libri.map(l => l.autore));
-
-    // calcolo generi unici
-    const generi = new Set(this.libri.map(l => l.genere));
-
-    // somma pagine
-    const totalePagine = this.libri.reduce((tot, l) => tot + (l.pagine || 0), 0);
-
-    return {
-      totaleLibri: this.libri.length,
-      autoriUnici: autori.size,
-      totalePagine: totalePagine,
-      generiUnici: generi.size
-    };
-  }
-}
-console.log("\n=== TEST JSON ===");
-
-// Stampa oggetto e JSON
-console.log("Oggetto libro:", libro);
-console.log("Libro JSON:", libroJSON);
-
-// Stampa biblioteca JSON
-console.log("\nBiblioteca JSON:");
-console.log(bibliotecaJSON);
-
-// Parsing
+// parse
+const libroRecuperato = JSON.parse(jsonString);
 console.log("\nLibro recuperato:", libroRecuperato);
 
-// Array parsing
-console.log("\nLibri da array JSON:");
+
+// Array JSON
+const arrayJSON = '[{"titolo":"Orgoglio e Pregiudizio","autore":"Jane Austen","anno":1813},{"titolo":"Moby Dick","autore":"Herman Melville","anno":1851},{"titolo":"Guerra e Pace","autore":"Lev Tolstoj","anno":1869}]';
+
+const libriArray = JSON.parse(arrayJSON);
+
+console.log("\nLibri:");
 libriArray.forEach(libro => {
   console.log("-", libro.titolo);
 });
 
 
-// ===============================
-// TEST STORAGE
-// ===============================
+// Error handling
+const jsonNonValido = '{"titolo":"Libro Rotto","autore":"Sconosciuto",}';
 
-console.log("\n=== TEST STORAGE ===");
-
-// Recupero biblioteca salvata
-console.log("Biblioteca recuperata:", bibliotecaRecuperata);
-
-
-// ===============================
-// TEST FUNZIONI HELPER
-// ===============================
-
-console.log("\n=== TEST FUNZIONI ===");
-
-salvaOggetto("utente", { nome: "Luca", eta: 25 });
-
-const utenteRecuperato = recuperaOggetto("utente");
-console.log("Utente recuperato:", utenteRecuperato);
-
-aggiungiALista("preferiti", "Libro X");
-aggiungiALista("preferiti", "Libro Y");
-
-const preferiti = recuperaOggetto("preferiti");
-console.log("Lista preferiti:", preferiti);
+try {
+  JSON.parse(jsonNonValido);
+} catch (errore) {
+  console.log("\nErrore JSON:", errore.message);
+}
 
 
 // ===============================
-// TEST CLASSE
+// PARTE 3 - REPLACER & REVIVER
 // ===============================
 
-console.log("\n=== TEST CLASSE ===");
+console.log("\n--- PARTE 3 ---");
 
-// Puliamo storage
-storage.clear();
+// Utente
+const utente = {
+  nome: "Mario Rossi",
+  email: "mario@example.com",
+  password: "12345",
+  ruolo: "admin"
+};
 
-// Creiamo biblioteca
-const miaBiblioteca = new BibliotecaPersistente();
+// Replacer sicurezza
+function replacerSicuro(key, value) {
+  if (key === "password") return undefined;
+  return value;
+}
 
-// Aggiungiamo libri
-miaBiblioteca.aggiungiLibro({
-  titolo: "Il Signore degli Anelli",
-  autore: "Tolkien",
-  genere: "Fantasy",
-  pagine: 1178
-});
+const utenteJSON = JSON.stringify(utente, replacerSicuro);
+console.log("\nUtente JSON:", utenteJSON);
 
-miaBiblioteca.aggiungiLibro({
-  titolo: "1984",
-  autore: "Orwell",
-  genere: "Distopia",
-  pagine: 328
-});
 
-// Stampiamo dati
-console.log("Libri salvati:", miaBiblioteca.libri);
+// Date
+const prestito = {
+  libro: "Il Piccolo Principe",
+  utente: "Laura",
+  dataPrestito: new Date("2024-03-01"),
+  dataScadenza: new Date("2024-03-15"),
+  restituito: false
+};
 
-// Statistiche
-console.log("Statistiche:", miaBiblioteca.getStatistiche());
+const prestitoJSON = JSON.stringify(prestito);
+console.log("\nPrestito JSON:", prestitoJSON);
 
-// Esportazione JSON
-console.log("\nJSON esportato:");
-console.log(miaBiblioteca.esportaJSON());
+
+// Reviver
+function reviverDate(key, value) {
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value)) {
+    return new Date(value);
+  }
+  return value;
+}
+
+const prestitoRecuperato = JSON.parse(prestitoJSON, reviverDate);
+console.log("\nPrestito recuperato:", prestitoRecuperato);
+
+
+// ===============================
+// PARTE 4 - CLONAZIONE
+// ===============================
+
+console.log("\n--- PARTE 4 ---");
+
+const bibliotecaOriginale = {
+  nome: "Biblioteca",
+  indirizzo: {
+    via: "Via Roma",
+    città: "Milano",
+    cap: "20100"
+  },
+  libri: [
+    { titolo: "A", disponibile: true },
+    { titolo: "B", disponibile: false }
+  ]
+};
+
+// deep clone
+const bibliotecaCopia = JSON.parse(JSON.stringify(bibliotecaOriginale));
+
+bibliotecaCopia.indirizzo.città = "Roma";
+bibliotecaCopia.libri[0].disponibile = false;
+
+console.log("Originale città:", bibliotecaOriginale.indirizzo.città);
+console.log("Copia città:", bibliotecaCopia.indirizzo.città);
+
+
+// confronto
+function oggettiUguali(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+console.log("\nConfronto:", oggettiUguali({ a: 1 }, { a: 1 }));
+
+
+// ===============================
+// PARTE 5 - STORAGE SIMULATO
+// ===============================
+
+console.log("\n--- PARTE 5 ---");
+
+const storage = (function () {
+  const dati = {};
+
+  return {
+    setItem: (k, v) => dati[k] = String(v),
+    getItem: (k) => dati[k] || null,
+    removeItem: (k) => delete dati[k],
+    clear: () => Object.keys(dati).forEach(k => delete dati[k]),
+    get length() { return Object.keys(dati).length; }
+  };
+})();
+
+// salva oggetto
+function salvaOggetto(k, obj) {
+  storage.setItem(k, JSON.stringify(obj));
+}
+
+// recupera oggetto
+function recuperaOggetto(k) {
+  return JSON.parse(storage.getItem(k));
+}
+
+// test
+salvaOggetto("utente", { nome: "Luca", eta: 20 });
+
+console.log("\nStorage utente:", recuperaOggetto("utente"));
+
+
+// lista
+function aggiungiALista(k, el) {
+  const lista = recuperaOggetto(k) || [];
+  lista.push(el);
+  salvaOggetto(k, lista);
+}
+
+aggiungiALista("preferiti", "Libro A");
+aggiungiALista("preferiti", "Libro B");
+
+console.log("Preferiti:", recuperaOggetto("preferiti"));
+
+
+// ===============================
+// PARTE 6 - CLASSE
+// ===============================
+
+console.log("\n--- PARTE 6 ---");
+
+class BibliotecaPersistente {
+  constructor() {
+    this.libri = [];
+  }
+
+  aggiungiLibro(l) {
+    this.libri.push(l);
+  }
+
+  getStatistiche() {
+    return {
+      totale: this.libri.length
+    };
+  }
+
+  esportaJSON() {
+    return JSON.stringify(this.libri, null, 2);
+  }
+}
+
+// test
+const b = new BibliotecaPersistente();
+
+b.aggiungiLibro({ titolo: "1984" });
+b.aggiungiLibro({ titolo: "Il Signore degli Anelli" });
+
+console.log("\nLibri:", b.libri);
+console.log("Statistiche:", b.getStatistiche());
+console.log("\nJSON:\n", b.esportaJSON());
+
+
+console.log("\n=== FINE ESERCITAZIONE ===");
