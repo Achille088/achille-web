@@ -1,64 +1,62 @@
-// Importiamo il modulo per leggere input da terminale
+// Importiamo modulo per input
 const readline = require("readline");
 
-// Creiamo interfaccia per input/output
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-// Chiediamo il primo numero
-rl.question("Inserisci il primo numero: ", (n1) => {
+// Funzione che esegue il calcolo
+function calcola(num1, num2, op) {
 
-  // Chiediamo il secondo numero
-  rl.question("Inserisci il secondo numero: ", (n2) => {
+  switch (op) {
+    case "+":
+      return num1 + num2;
 
-    // Chiediamo l'operazione
-    rl.question("Inserisci operazione (+, -, *, /, **): ", (op) => {
+    case "-":
+      return num1 - num2;
 
-      // Convertiamo le stringhe in numeri
-      const num1 = Number(n1);
-      const num2 = Number(n2);
+    case "*":
+      return num1 * num2;
 
-      let risultato;
+    case "/":
+      if (num2 === 0) {
+        return "Errore: divisione per 0";
+      }
+      return num1 / num2;
 
-      // Controllo validità numeri
-      if (isNaN(num1) || isNaN(num2)) {
-        console.log("Errore: inserisci numeri validi");
-      } else {
+    case "**":
+      return num1 ** num2;
 
-        // Switch per scegliere operazione
-        switch (op) {
-          case "+":
-            risultato = num1 + num2;
-            break;
+    default:
+      return "Operazione non valida";
+  }
+}
 
-          case "-":
-            risultato = num1 - num2;
-            break;
+// Funzione principale
+function avviaCalcolatrice() {
 
-          case "*":
-            risultato = num1 * num2;
-            break;
+  rl.question("Inserisci il primo numero: ", (n1) => {
+    rl.question("Inserisci il secondo numero: ", (n2) => {
+      rl.question("Operazione (+, -, *, /, **): ", (op) => {
 
-          case "/":
-            risultato = num2 !== 0 ? num1 / num2 : "Errore: divisione per 0";
-            break;
+        const num1 = Number(n1);
+        const num2 = Number(n2);
 
-          case "**":
-            risultato = num1 ** num2;
-            break;
-
-          default:
-            risultato = "Operazione non valida";
+        // Controllo validità
+        if (isNaN(num1) || isNaN(num2)) {
+          console.log("Errore: numeri non validi");
+        } else {
+          // Chiamiamo la funzione
+          let risultato = calcola(num1, num2, op);
+          console.log("Risultato:", risultato);
         }
 
-        // Stampiamo risultato
-        console.log("Risultato:", risultato);
-      }
-
-      // Chiudiamo input
-      rl.close();
+        rl.close();
+      });
     });
   });
-});
+}
+
+// Avvio programma
+avviaCalcolatrice();
