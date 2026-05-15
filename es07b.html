@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oggetto Navigator</title>
+</head>
+<body>
+
+    <h1>Proprietà Oggetto Navigator</h1>
+
+    <!-- Paragrafo che mostrerà le informazioni -->
+    <p id="browser"></p>
+
+    <script>
+
+        // Salva il nome del browser
+        let nomeBrowser = navigator.appName;
+
+        // Salva la versione del browser
+        let versione = navigator.appVersion;
+
+        // Salva la lingua del browser
+        let lingua = navigator.language;
+
+        // Salva il sistema operativo/piattaforma
+        let piattaforma = navigator.platform;
+
+        // Salva tutte le informazioni del browser
+        let userAgent = navigator.userAgent;
+
+        // Mostra tutte le informazioni nel paragrafo
+        document.getElementById("browser").innerHTML =
+            "Nome Browser: " + nomeBrowser + "<br>" +
+            "Versione: " + versione + "<br>" +
+            "Lingua: " + lingua + "<br>" +
+            "Piattaforma: " + piattaforma + "<br>" +
+            "User Agent: " + userAgent;
+
+    </script>
+
+</body>
+</html>
