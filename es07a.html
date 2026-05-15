@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oggetto Window</title>
+</head>
+<body>
+
+    <h1>Proprietà Oggetto Window</h1>
+
+    <!-- Paragrafo dove verranno mostrate le informazioni -->
+    <p id="info"></p>
+
+    <script>
+
+        // Salva la larghezza interna della finestra
+        let larghezza = window.innerWidth;
+
+        // Salva l'altezza interna della finestra
+        let altezza = window.innerHeight;
+
+        // Salva l'URL della pagina corrente
+        let url = window.location.href;
+
+        // Salva il titolo della pagina
+        let titolo = document.title;
+
+        // Inserisce tutte le informazioni nel paragrafo HTML
+        document.getElementById("info").innerHTML =
+            "Larghezza finestra: " + larghezza + "<br>" +
+            "Altezza finestra: " + altezza + "<br>" +
+            "URL pagina: " + url + "<br>" +
+            "Titolo pagina: " + titolo;
+
+    </script>
+
+</body>
+</html>
