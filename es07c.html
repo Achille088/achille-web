@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifica Pulsanti</title>
+</head>
+<body>
+
+    <h1>Modifica Colore Pulsanti</h1>
+
+    <!-- Pulsante numero 1 -->
+    <button class="btn">Pulsante 1</button>
+
+    <!-- Pulsante numero 2 -->
+    <button class="btn">Pulsante 2</button>
+
+    <!-- Pulsante per avviare la modifica -->
+    <button onclick="cambiaStile()">Cambia Colori</button>
+
+    <script>
+
+        // Funzione che modifica lo stile dei pulsanti
+        function cambiaStile() {
+
+            // Seleziona tutti gli elementi con classe "btn"
+            let pulsanti = document.querySelectorAll(".btn");
+
+            // Ciclo che scorre tutti i pulsanti
+            for(let i = 0; i < pulsanti.length; i++) {
+
+                // Cambia il colore del testo
+                pulsanti[i].style.color = "white";
+
+                // Cambia il colore di sfondo
+                pulsanti[i].style.backgroundColor = "blue";
+
+                // Aggiunge un bordo nero
+                pulsanti[i].style.border = "2px solid black";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
